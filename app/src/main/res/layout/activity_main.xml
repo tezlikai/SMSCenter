@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ui.activity.MainActivity"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#292C29"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+            <!-- 会话 -->
+            <LinearLayout
+                android:id="@+id/ll_tab_conversation"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/img_conversation"
+                    />
+                <TextView
+                    android:id="@+id/tv_tab_conversation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="会话"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+
+                    />
+            </LinearLayout>
+            <!-- 分组 -->
+            <LinearLayout
+                android:id="@+id/ll_tab_group"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/img_group"
+                    />
+                <TextView
+                    android:id="@+id/tv_tab_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分组"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+
+                    />
+            </LinearLayout>
+            <!-- 搜索 -->
+            <LinearLayout
+                android:id="@+id/ll_tab_search"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/img_search"
+                    />
+                <TextView
+                    android:id="@+id/tv_tab_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="搜索"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+
+                    />
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:id="@+id/v_indicate_line"
+            android:layout_width="60dp"
+            android:layout_height="4dp"
+            android:background="#CE0000"
+            android:layout_alignParentBottom="true"
+            />
+    </RelativeLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></android.support.v4.view.ViewPager>
+</LinearLayout>
