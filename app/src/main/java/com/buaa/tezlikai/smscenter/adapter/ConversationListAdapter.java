@@ -64,9 +64,9 @@ public class ConversationListAdapter extends CursorAdapter {
             holder.iv_check.setVisibility(View.VISIBLE);
             //判断集合汇总是否包含会话id，从而确定该条目是否被选中
             if (selectedConversationIds.contains(conversation.getThread_id())){
-                holder.iv_check.setBackgroundResource(R.drawable.common_checkbox_checked);
+                holder.iv_check.setBackgroundResource(R.mipmap.common_checkbox_checked);
             }else {
-                holder.iv_check.setBackgroundResource(R.drawable.common_checkbox_normal);
+                holder.iv_check.setBackgroundResource(R.mipmap.common_checkbox_normal);
             }
 
         }else {
@@ -96,7 +96,7 @@ public class ConversationListAdapter extends CursorAdapter {
         Bitmap avatar = ContactDao.getAvatarByAddress(context.getContentResolver(),conversation.getAddress());
         //判断是否成功拿到头像
         if (avatar == null){
-            holder.iv_conversation_avatar.setBackgroundResource(R.drawable.img_default_avatar);
+            holder.iv_conversation_avatar.setBackgroundResource(R.mipmap.img_default_avatar);
         }else {
             holder.iv_conversation_avatar.setBackgroundDrawable(new BitmapDrawable(avatar));
         }

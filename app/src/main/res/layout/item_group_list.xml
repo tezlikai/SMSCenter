@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@drawable/selector_item_grouplist_bg"
+    >
+    <!--最左边的图片就是孤零零的图片上面没有加上任何的功能，所以直接在textview中利用属性实现  -->
+    <TextView 
+        android:id="@+id/tv_grouplist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="群组名字"
+        android:textSize="16sp"
+        android:drawableLeft="@mipmap/img_group"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        />
+    <TextView 
+        android:id="@+id/tv_grouplist_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12:78pm"
+        android:textSize="15sp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        />
+	
+</RelativeLayout>

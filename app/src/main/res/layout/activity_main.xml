@@ -30,7 +30,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/img_conversation"
+                    android:background="@mipmap/img_conversation"
                     />
                 <TextView
                     android:id="@+id/tv_tab_conversation"
@@ -54,7 +54,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/img_group"
+                    android:background="@mipmap/img_group"
                     />
                 <TextView
                     android:id="@+id/tv_tab_group"
@@ -78,7 +78,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/img_search"
+                    android:background="@mipmap/img_search"
                     />
                 <TextView
                     android:id="@+id/tv_tab_search"

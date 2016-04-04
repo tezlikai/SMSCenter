@@ -1,5 +1,6 @@
 package com.buaa.tezlikai.smscenter.ui.fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,13 +13,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.buaa.tezlikai.smscenter.Bean.Conversation;
+import com.buaa.tezlikai.smscenter.Bean.Group;
 import com.buaa.tezlikai.smscenter.R;
 import com.buaa.tezlikai.smscenter.adapter.ConversationListAdapter;
 import com.buaa.tezlikai.smscenter.base.BaseFragment;
+import com.buaa.tezlikai.smscenter.dao.GroupDao;
 import com.buaa.tezlikai.smscenter.dao.SimpleQueryHander;
+import com.buaa.tezlikai.smscenter.dao.ThreadGroupDao;
 import com.buaa.tezlikai.smscenter.dialog.ConfirmDialog;
 import com.buaa.tezlikai.smscenter.dialog.DeleteMsgDialog;
+import com.buaa.tezlikai.smscenter.dialog.ListDialog;
 import com.buaa.tezlikai.smscenter.globle.Constant;
+import com.buaa.tezlikai.smscenter.ui.activity.ConversationDetailActivity;
+import com.buaa.tezlikai.smscenter.ui.activity.NewMsgActivity;
+import com.buaa.tezlikai.smscenter.utils.ToastUtils;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
 import java.util.List;
@@ -95,10 +104,34 @@ public class ConversationFragment extends BaseFragment {
                     adapter.selectSingle(position);
                 } else {
                     //进入会话详细
+                    Intent intent = new Intent(getContext(), ConversationDetailActivity.class);
+                   //携带数据：address和会话thread_id
+                    Cursor cursor = (Cursor) adapter.getItem(position);
+                    Conversation conversation = Conversation.createFromCursor(cursor);
+                    intent.putExtra("address",conversation.getAddress());
+                    intent.putExtra("thread_id",conversation.getThread_id());
+                    startActivity(intent);
                 }
             }
         });
-        //
+        lv_conversation_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor cursor =  (Cursor)adapter.getItem(position);
+                Conversation conversation = Conversation.createFromCursor(cursor);
+                //判断选中的会话是否有所属的群组
+                if (ThreadGroupDao.hasGroup(getActivity().getContentResolver(),conversation.getThread_id())){
+                    //该会话已经被添加，弹出ConfrimDialog
+                    showExitDialog(conversation.getThread_id());
+
+                }else {
+                    //该会话没有被添加过，弹出ListDialog，列出所有群组
+                    showSelectGroupDialog(conversation.getThread_id());
+                }
+                //消费掉这个事件，否则会传递给OnItemClickListener事件
+                return true;
+            }
+        });
     }
 
     @Override
@@ -149,7 +182,11 @@ public class ConversationFragment extends BaseFragment {
                 if (selectedConversationIds.size() == 0)
                     return;
                 showDeleteDialog();
-//                deleteSms();
+                deleteSms();
+                break;
+            case R.id.bt_conversation_new_msg:
+                Intent intent = new Intent(getActivity(), NewMsgActivity.class);
+                startActivity(intent);
                 break;
 
         }
@@ -236,9 +273,64 @@ public class ConversationFragment extends BaseFragment {
             public void onCancel() {
 
             }
+
             @Override
             public void onConfirm() {
                 deleteSms();
+            }
+        });
+    }
+    private void showExitDialog(final int thread_id){
+        //先通过会话id查询群组id
+        final int group_id= ThreadGroupDao.getGroupIdByThreadId(getActivity().getContentResolver(), thread_id);
+        //通过群组id查询群组名字
+        String name = GroupDao.getGroupNameByGroupId(getActivity().getContentResolver(), group_id);
+
+        String message = "该会话已经被添加至[" + name + "]群组，是否要退出该群组？";
+        ConfirmDialog.showDialog(getActivity(), "提示", message, new ConfirmDialog.OnConfirmListener() {
+
+            @Override
+            public void onConfirm() {
+                //把选中的会话从群组中删除
+                boolean isSuccess = ThreadGroupDao.deleteThreadGroupByThreadId(getActivity().getContentResolver(), thread_id, group_id);
+                ToastUtils.ShowToast(getActivity(), isSuccess ? "退出成功" : "退出失败");
+            }
+
+            @Override
+            public void onCancel() {
+            }
+        });
+    }
+
+    /**
+     *
+     */
+    private void showSelectGroupDialog(final int thread_id) {
+        //查询一共有哪些群组，取出名字全部存入items
+        final Cursor cursor = getActivity().getContentResolver().query(Constant.URI.URI_GROUP_QUERY,
+                null, null, null, null);
+        if(cursor.getCount() == 0){
+            ToastUtils.ShowToast(getActivity(), "当前没有群组，请先创建");
+            return;
+        }
+        String[] items = new String[cursor.getCount()];
+        //遍历cursor，取出名字
+        while(cursor.moveToNext()){
+            Group group = Group.createFromCursor(cursor);
+            //获取所有群组的名字，并将群组名全部存入到一个string集合当中。
+            items[cursor.getPosition()] = group.getName();
+        }
+        ListDialog.showDialog(getActivity(), "选择群组", items, new ListDialog.OnListDialogListener() {
+
+            @Override//用户点下确定按钮后，
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                //cursor就是查询groups表得到的，里面就是群组的所有信息
+                cursor.moveToPosition(position);
+                Group group = Group.createFromCursor(cursor);
+                //把指定会话存入指定群组
+                boolean isSuccess = ThreadGroupDao.insertThreadGroup(getActivity().getContentResolver(), thread_id, group.get_id());
+                ToastUtils.ShowToast(getActivity(), isSuccess ? "插入成功" : "插入失败");
             }
         });
     }

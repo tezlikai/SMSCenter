@@ -56,6 +56,7 @@
             android:paddingTop="3dp"
             android:gravity="center_vertical"
             android:translationY="90dp"
+            android:background="#292C29"
             >
             <Button
                 android:id="@+id/bt_conversation_select_all"

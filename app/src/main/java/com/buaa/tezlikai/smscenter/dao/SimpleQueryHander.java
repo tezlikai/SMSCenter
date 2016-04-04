@@ -9,6 +9,7 @@ import com.buaa.tezlikai.smscenter.utils.CursorUtils;
 
 /**
  * Created by Administrator on 2016/3/29.
+ * 短信的异步查询
  */
 public class SimpleQueryHander extends AsyncQueryHandler {
     public SimpleQueryHander(ContentResolver cr) {
