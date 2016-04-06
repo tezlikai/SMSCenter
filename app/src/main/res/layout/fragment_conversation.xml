@@ -24,7 +24,7 @@
             android:paddingRight="30dp"
             android:paddingTop="3dp"
             android:gravity="center_vertical"
-
+            android:background="#292C29"
             >
             <Button
                 android:id="@+id/bt_conversation_edit"
@@ -46,6 +46,7 @@
         </LinearLayout>
 
         <!-- 选择菜单 -->
+        <!-- android:translationY="90dp" :先让选择菜单初始化的时候隐藏一下-->
         <LinearLayout
             android:id="@+id/ll_conversation_select_menu"
             android:layout_width="match_parent"

@@ -17,7 +17,6 @@ public abstract class BaseFragment extends Fragment implements OnClickListener{
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		initListener();
 		initData();

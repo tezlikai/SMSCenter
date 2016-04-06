@@ -26,7 +26,6 @@ public class ConversationDetailAdapter extends CursorAdapter {
         super(context, c);
         this.lv = lv;
     }
-
     /**
      * 只负责填充对象
      * @param context

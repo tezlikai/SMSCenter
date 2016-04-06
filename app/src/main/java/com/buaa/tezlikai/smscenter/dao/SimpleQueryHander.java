@@ -18,6 +18,7 @@ public class SimpleQueryHander extends AsyncQueryHandler {
 
     //查询完毕时调用
     //arg0、arg1:查询开始时携带的数据
+    //arg2:查询结果
     @Override
     protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
         super.onQueryComplete(token, cookie, cursor);

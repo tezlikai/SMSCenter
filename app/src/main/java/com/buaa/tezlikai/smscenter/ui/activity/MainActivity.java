@@ -65,18 +65,20 @@ public class MainActivity extends BaseActivity {
         //viewPager界面切换时会触发
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             //滑动过程不断调用
+            //如果滑动过程中出现两个界面，position是前一个的索引
+            //positionOffsetPixels:滑动像素
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 //计算红线位移的距离
                 int distance = positionOffsetPixels / 3;
 
                 //持续时间为0，立刻生效，因为红线的移动需要与用户滑动同步
-                ViewPropertyAnimator.animate(v_indicate_line).translationX(distance + position * v_indicate_line.getWidth()).setDuration(200);
+                ViewPropertyAnimator.animate(v_indicate_line).translationX(distance + position * v_indicate_line.getWidth()).setDuration(0);
             }
 
             @Override
             public void onPageSelected(int position) {
-                LogUtils.i("lk",position + "");
+//                LogUtils.i("lk",position + "");
                 textLightAndScale();
             }
 
@@ -107,6 +109,8 @@ public class MainActivity extends BaseActivity {
         fragments.add(fragment2);
         fragments.add(fragment3);
 
+        //设置viewPager
+        //getSupportFragmentManager()需要android.support.v4.app.FragmentManager，所以BaseActivity 需要extends FragmentActivity
         adapter = new MainPagerAdapter(getSupportFragmentManager(),fragments);
         viewPager.setAdapter(adapter);
 
@@ -129,7 +133,6 @@ public class MainActivity extends BaseActivity {
             case R.id.ll_tab_search:
                 viewPager.setCurrentItem(2);
                 break;
-
         }
 
     }
@@ -159,6 +162,7 @@ public class MainActivity extends BaseActivity {
     private void computeIndicateLineWidth(){
         //拿到屏幕的三分之一
         int width = getWindowManager().getDefaultDisplay().getWidth();
+        //获取布局参数getLayoutParams()
         v_indicate_line.getLayoutParams().width = width/3;
     }
 }

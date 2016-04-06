@@ -94,7 +94,6 @@ public class ConversationFragment extends BaseFragment {
         bt_conversation_delete.setOnClickListener(this);
         bt_conversation_cancel_select.setOnClickListener(this);
 
-
         //为viewList每个条目设置监听
         lv_conversation_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -144,8 +143,7 @@ public class ConversationFragment extends BaseFragment {
         lv_conversation_list.setAdapter(adapter);
 
         //信息的异步查询（常用）
-        //arg0、arg1:可以用来携带一个int型和一个对象
-        //arg2:查询结果
+
         SimpleQueryHander queryHander = new SimpleQueryHander(getActivity().getContentResolver());
 
         String[] projection = {
@@ -155,6 +153,7 @@ public class ConversationFragment extends BaseFragment {
                 "address AS address",
                 "date AS date"
         };
+        //arg0、arg1:可以用来携带一个int型和一个对象
         queryHander.startQuery(0, adapter, Constant.URI.URI_SMS_CONVERSATION, projection, null, null, "date desc");
     }
 
@@ -182,7 +181,6 @@ public class ConversationFragment extends BaseFragment {
                 if (selectedConversationIds.size() == 0)
                     return;
                 showDeleteDialog();
-                deleteSms();
                 break;
             case R.id.bt_conversation_new_msg:
                 Intent intent = new Intent(getActivity(), NewMsgActivity.class);
@@ -234,11 +232,7 @@ public class ConversationFragment extends BaseFragment {
             @Override
             public void run() {
                 for (int i = 0;i < selectedConversationIds.size() ;i++){
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    //中断删除
                     if (isStopDelete){
                         isStopDelete = false;
                         break;

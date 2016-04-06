@@ -54,7 +54,7 @@ public class ThreadGroupDao {
 	}
 
 	/**
-	 * 从群组中删除会话
+	 * 通过会话id删除群组中的会话
 	 * @param resolver
 	 * @param thread_id
 	 * @return

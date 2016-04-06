@@ -14,7 +14,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 		this.fragments = fragments;
 	}
 
-	//返回的fragment对象会作为viewpager的条目
+
+	//返回的fragment对象会作为Viewpager的条目
 	@Override
 	public Fragment getItem(int position) {
 		return fragments.get(position);

@@ -49,8 +49,8 @@ public class ConversationListAdapter extends CursorAdapter {
     //返回的View对象就是listView的条目
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        //只是用来填充布局对象
         return View.inflate(context,R.layout.item_conversation_list,null);
-
     }
     //设置listView每个条目显示的内容
     @Override
@@ -112,7 +112,7 @@ public class ConversationListAdapter extends CursorAdapter {
         }
         return holder;
     }
-
+    //用于封装条目出现的所有布局（代码的可阅读量更强）
     class ViewHolder{
         private ImageView iv_conversation_avatar;
         private TextView tv_conversation_address;
@@ -145,6 +145,10 @@ public class ConversationListAdapter extends CursorAdapter {
         //刷新
         notifyDataSetChanged();
     }
+
+    /**
+     * 选中所有选项
+     */
     public void selectAll() {
         Cursor cursor = getCursor();
         cursor.moveToPosition(-1);
@@ -157,6 +161,10 @@ public class ConversationListAdapter extends CursorAdapter {
         }
         notifyDataSetChanged();
     }
+
+    /**
+     * 清空集合
+     */
     public void cancleSelect(){
         selectedConversationIds.clear();
         notifyDataSetChanged();
